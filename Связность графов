@@ -1,0 +1,94 @@
+//найти двумя методами количество компонент связности неорграфа
+//1.
+using System;
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введите количество вершин в графе");
+        int count = int.Parse(Console.ReadLine());
+        int[,] graf = new int[count, count];
+        Console.WriteLine("Заполните таблицу смежности");
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < count; j++)
+            {
+                graf[i, j] = int.Parse(Console.ReadLine());
+            }
+            Console.WriteLine();
+        }
+        int[] visit = new int[count];
+        int res = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (visit[i] == 0)
+            {
+                visit[i] = 1;
+                int[] vershins = new int[count];
+                int a = -1;
+                vershins[++a] = i;
+                while (a != -1)
+                {
+                    int v = vershins[a--];
+                    for (int j = 0; j < count; j++)
+                    {
+                        if (graf[i, j] == 1 && visit[j] == 0)
+                        {
+                            visit[j] = 1;
+                            vershins[++a] = j;
+                        }
+                    }
+                }
+                res++;
+            }
+        }
+        Console.WriteLine($"Количество компонент: {res}");
+    }
+}
+//2.
+using System;
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введите количество вершин в графе");
+        int count = int.Parse(Console.ReadLine());
+        int[,] graf = new int[count, count];
+        Console.WriteLine("Заполните таблицу смежности");
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < count; j++)
+            {
+                graf[i, j] = int.Parse(Console.ReadLine());
+            }
+            Console.WriteLine();
+        }
+        int[] component = new int[count];
+        int res = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (component[i] == 0)
+            {
+                res++;
+                int[] components = new int[count];
+                int start = 0;
+                int end = 0;
+                components[end++] = i;
+                component[i] = res;
+                while (start < end)
+                {
+                    int vershina = components[start++];
+                    for (int j = 0; j < count; j++)
+                    {
+                        if (graf[vershina, j] == 1 && component[j] == 0)
+                        {
+                            component[j] = res;
+                            components[end++] = j;
+                        }
+                    }
+                }
+            }
+        }
+        Console.WriteLine($"Количество компонент: {res}");
+    }
+}
